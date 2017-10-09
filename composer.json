@@ -1,6 +1,6 @@
 {
-  "name": "frnkly/keen-laravel",
-  "description": "An efficient Keen.io integration for Laravel 5",
+  "name": "frnkly/laravel-keen",
+  "description": "An efficient Keen.io integration for Laravel",
   "keywords": ["keen", "keen io", "laravel", "analytics"],
   "license": "MIT",
   "authors": [
@@ -11,6 +11,7 @@
   ],
   "require": {
     "php": ">=5.6.0",
+    "illuminate/http": "^5.5",
     "illuminate/support": "^5.5",
     "keen-io/keen-io": "~2.5"
   },
@@ -20,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Frnk\\KeenLaravel\\": "src/"
+      "Frnk\\LaravelKeen\\": "src/"
     }
   }
 }
