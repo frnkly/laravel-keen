@@ -8,14 +8,16 @@ Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down 
 [![License](https://poser.pugx.org/frnkly/laravel-keen/license)](https://packagist.org/packages/frnkly/laravel-keen)
 
 This package provides a light wrapper around the [Keen PHP client](https://github.com/keenlabs/KeenClient-PHP), as well 
-as a middleware configured to track any request automatically—_after_ each request has been fulfilled. That means 
-virtually no impact on speed.
+as a middleware configured to track any request automatically—_after_ each request has been fulfilled. That means that
+as the number of tracked events increase, the impact on request time remains virtually non-existant.
 
 ## Installation
 
-Install the Laravel + Keen package using [Composer](https://getcomposer.org)
+Install the Laravel + Keen package using [Composer](https://getcomposer.org):
 
     $ composer require frnkly/laravel-keen
+
+This will also install the Keen PHP client as a dependency.
 
 ## Configuration
 
@@ -48,6 +50,8 @@ configuration options:
 ],
 ```
 
+Each data enrichment object will appear in your Keen stream under the same key name as above.
+
 ## Getting started
 
 All you need to get started is the [service provider](https://laravel.com/docs/providers) and the 
@@ -64,7 +68,7 @@ Start by registering the service provider in the `config/app.php` configuration 
 ```
 
 Then register the middleware globally in `app/Http/Kernel.php` if you'd like to automatically track every request. 
-This step is optional.
+This step is optional and works with the data enrichment config keys.
 
 ```php
 protected $middleware = [
