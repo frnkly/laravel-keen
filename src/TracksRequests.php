@@ -34,10 +34,6 @@ class TrackRequests
     {
         $response = $next($request);
 
-        if (! config('services.keen.track-requests', true)) {
-            return $response;
-        }
-
         // Build event data
         $eventData = [
             'method'        => $request->method(),

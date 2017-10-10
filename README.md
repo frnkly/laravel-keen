@@ -1,4 +1,4 @@
-# [Keen.io](https://keen.io) + [Laravel](https://laravel.com)
+# [Laravel](https://laravel.com) + [Keen.io](https://keen.io)
 
 Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down your Laravel application.
 
@@ -7,29 +7,69 @@ Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down 
 [![Total Downloads](https://poser.pugx.org/frnkly/laravel-keen/downloads)](https://packagist.org/packages/frnkly/laravel-keen)
 [![License](https://poser.pugx.org/frnkly/laravel-keen/license)](https://packagist.org/packages/frnkly/laravel-keen)
 
-This package provides a light wrapper around the Keen PHP client, as well as a middleware configured to track any
-request automatically—_after_ each request has been fulfilled. That means virtually no impact on speed.
+This package provides a light wrapper around the [Keen PHP client](https://github.com/keenlabs/KeenClient-PHP), as well 
+as a middleware configured to track any request automatically—_after_ each request has been fulfilled. That means 
+virtually no impact on speed.
 
-## Getting started
+## Installation
 
-Start by requiring the LaravelKeen package
+Install the Laravel + Keen package using [Composer](https://getcomposer.org)
 
     $ composer require frnkly/laravel-keen
 
-Todo:
+## Configuration
 
-- Add provider `\Frnkly\LaravelKeen\ServiceProvider` to app.php
-- Add middleware `\Frnkly\LaravelKeen\TrackRequests` to Kernel
-- Update services config:
+Your Keen project ID and keys should be defined in the `config/services.php` configuration file, but will usually come
+from the [environment configuration](https://laravel.com/docs/configuration):
+
+```php
+return [
+    // Other 3rd-party Services
+    
+    'keen' => [
+        'id'     => env('KEEN_PROJECT_ID'),
+        'master' => env('KEEN_MASTER_KEY'),
+        'write'  => env('KEEN_WRITE_KEY'),
+    ],
+];
+```
+
+To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) to each request, use the following
+configuration options:
+
 ```php
 'keen' => [
-    'id'     => env('KEEN_PROJECT_ID'),
-    'master' => env('KEEN_MASTER_KEY'),
-    'write'  => env('KEEN_WRITE_KEY'),
+    // Other Keen settings
+    
+    'addons' => [
+        'geo-data'  => 1,   // IP to Geo parser
+        'user-data' => 1,   // User Agent parser
+    ],
 ],
 ```
-- Explain other config values:
-    - `services.keen.track-requests`
-    - `services.keen.geo-data`\Frnkly\LaravelKeen\TrackRequests
-    - `services.keen.user-data`
-- Add option to publish default configs
+
+## Getting started
+
+All you need to get started is the [service provider](https://laravel.com/docs/providers) and the 
+[middleware](https://laravel.com/docs/middleware).
+
+Start by registering the service provider in the `config/app.php` configuration file:
+
+```php
+'providers' => [
+    // Other Service Providers
+
+    Frnkly\LaravelKeen\ServiceProvider::class,
+]
+```
+
+Then register the middleware globally in `app/Http/Kernel.php` if you'd like to automatically track every request. 
+This step is optional.
+
+```php
+protected $middleware = [
+    // Other Middleware
+    
+    \Frnkly\LaravelKeen\TrackRequests::class,
+];
+```
