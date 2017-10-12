@@ -16,11 +16,25 @@
   "require-dev": {
     "laravel/framework": "~5",
     "phpunit/phpunit": "^5.7",
-    "mockery/mockery": "^1.0"
+    "mockery/mockery": "^1.0",
+    "orchestra/testbench": "~3.4"
   },
   "autoload": {
     "psr-4": {
       "Frnkly\\LaravelKeen\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Frnkly\\LaravelKeen\\": "src/",
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Frnkly\\LaravelKeen\\ServiceProvider"
+      ]
     }
   }
 }

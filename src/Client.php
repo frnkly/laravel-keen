@@ -47,22 +47,38 @@ class Client
     }
 
     /**
+     * Retrieves event data.
+     *
+     * @param  string $event
+     * @return array|null
+     */
+    public function getEvents($event = null)
+    {
+        return $event ? $this->trackedEvents[$event] : $this->trackedEvents;
+    }
+
+    /**
      * Saves event data.
      *
-     * @return void
+     * @return string|false
      */
     public function persist()
     {
         if (! $this->trackedEvents || ! $this->keen) {
-            return;
+            return false;
         }
 
         try {
             $result = $this->keen->addEvents($this->trackedEvents);
+
+            // Reset tracked events
+            $this->trackedEvents = [];
         } catch (\Exception $e) {
             $result = $e->getMessage();
         } catch (\Throwable $t) {
             $result = $t->getMessage();
         }
+
+        return $result;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Frnkly\LaravelKeen;
 
-class TrackRequests
+class TracksRequests
 {
     /**
      * @var Client
