@@ -59,8 +59,7 @@ If [package discovery](https://laravel.com/docs/5.5/packages#package-discovery) 
 application, the service provider should already be available to use.
 
 Optionally, you may choose to register the pre-configured middleware globally in `app/Http/Kernel.php` to enable 
-automatic tracking on every requests. The middleware works with the [data enrichment](#data-enrichment) 
-configuration keys.
+automatic tracking on every requests. The middleware works with the [data enrichment config keys](#data-enrichment).
 
 ```php
 protected $middleware = [
