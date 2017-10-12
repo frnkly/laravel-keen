@@ -36,6 +36,7 @@ return [
 ];
 ```
 
+### Data enrichment
 To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) to each request, use the following
 configuration options:
 
@@ -54,21 +55,12 @@ Each data enrichment object will appear in your Keen stream under the same key n
 
 ## Getting started
 
-All you need to get started is the [service provider](https://laravel.com/docs/providers) and the 
-[middleware](https://laravel.com/docs/middleware).
+If [package discovery](https://laravel.com/docs/5.5/packages#package-discovery) hasn't been disabled in your
+application, the service provider should already be available to use.
 
-Start by registering the service provider in the `config/app.php` configuration file:
-
-```php
-'providers' => [
-    // Other Service Providers
-
-    Frnkly\LaravelKeen\ServiceProvider::class,
-]
-```
-
-Then register the middleware globally in `app/Http/Kernel.php` if you'd like to automatically track every request. 
-This step is optional and works with the data enrichment config keys.
+Optionally, you may choose to register the pre-configured middleware globally in `app/Http/Kernel.php` to enable 
+automatic tracking on every requests. The middleware works with the [data enrichment](#data-enrichment) 
+configuration keys.
 
 ```php
 protected $middleware = [
