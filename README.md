@@ -5,7 +5,6 @@ Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down 
 [![Latest Stable Version](https://poser.pugx.org/frnkly/laravel-keen/version)](https://packagist.org/packages/frnkly/laravel-keen)
 [![Build Status](https://travis-ci.org/frnkly/laravel-embeds.png)](https://travis-ci.org/frnkly/laravel-embeds)
 [![Total Downloads](https://poser.pugx.org/frnkly/laravel-keen/downloads)](https://packagist.org/packages/frnkly/laravel-keen)
-[![Dependency Status](https://www.versioneye.com/user/projects/59debc8e0fb24f2106c21204/badge.svg)](https://www.versioneye.com/user/projects/59debc8e0fb24f2106c21204)
 [![License](https://poser.pugx.org/frnkly/laravel-keen/license)](https://packagist.org/packages/frnkly/laravel-keen)
 
 This package provides a light wrapper around the [Keen PHP client](https://github.com/keenlabs/KeenClient-PHP), as well 
