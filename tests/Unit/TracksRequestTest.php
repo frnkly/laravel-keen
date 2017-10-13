@@ -7,6 +7,8 @@ use Orchestra\Testbench\TestCase;
 use Frnkly\LaravelKeen\TracksRequests as Middleware;
 
 /**
+ * Tests the middleware.
+ * 
  * @covers \Frnkly\LaravelKeen\TracksRequests
  */
 final class TracksRequestsTest extends TestCase
@@ -17,15 +19,15 @@ final class TracksRequestsTest extends TestCase
         $client     = new Client;
         $middleware = new Middleware($client);
 
-        $this->assertEmpty($client->getEvents());
+        $this->assertEmpty($client->getDeferredEvents());
 
         // Simulate a request cycle.
         $middleware->handle(new \Illuminate\Http\Request, function($request) {
             return new \Illuminate\Http\Response;
         });
 
-        $this->assertNotEmpty($client->getEvents());
-        $this->assertNotEmpty($client->getEvents()['request']);
+        $this->assertNotEmpty($client->getDeferredEvents());
+        $this->assertNotEmpty($client->getDeferredEvents()['request']);
     }
 
     /**

@@ -73,7 +73,7 @@ class TracksRequests
             ];
         }
 
-        $this->client->addEvent('request', $eventData);
+        $this->client->addDeferredEvent('request', $eventData);
 
         return $response;
     }

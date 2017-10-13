@@ -12,9 +12,14 @@ class Client
     private $keen;
 
     /**
-     * @var array
+     * @var array[]
      */
-    private $trackedEvents = [];
+    private $deferredEvents = [];
+
+    /**
+     * @var string[]
+     */
+    private $errors = [];
 
     /**
      * @param string $projectId
@@ -35,13 +40,13 @@ class Client
     /**
      * Tracks an event.
      *
-     * @param  string $event
+     * @param  string $name
      * @param  array  $parameters
      * @return static
      */
-    public function addEvent($event, array $parameters = [])
+    public function addDeferredEvent($name, array $parameters = [])
     {
-        $this->trackedEvents[$event][] = $parameters;
+        $this->deferredEvents[$name][] = $parameters;
 
         return $this;
     }
@@ -52,9 +57,9 @@ class Client
      * @param  string $event
      * @return array|null
      */
-    public function getEvents($event = null)
+    public function getDeferredEvents($event = null)
     {
-        return $event ? $this->trackedEvents[$event] : $this->trackedEvents;
+        return $event ? $this->deferredEvents[$event] : $this->deferredEvents;
     }
 
     /**
@@ -64,21 +69,54 @@ class Client
      */
     public function persist()
     {
-        if (! $this->trackedEvents || ! $this->keen) {
-            return false;
+        if (!$this->deferredEvents) {
+            return true;
+        } elseif (! $this->keen) {
+            return $this->addError('Keen client not instantiated.');
         }
 
         try {
-            $result = $this->keen->addEvents($this->trackedEvents);
+            $result = $this->keen->addEvents($this->deferredEvents);
 
             // Reset tracked events
-            $this->trackedEvents = [];
-        } catch (\Exception $e) {
-            $result = $e->getMessage();
-        } catch (\Throwable $t) {
-            $result = $t->getMessage();
-        }
+            $this->deferredEvents = [];
 
-        return $result;
+            return true;
+        } catch (\Exception $e) {
+            return $this->addError($e->getMessage());
+        } catch (\Throwable $t) {
+            return $this->addError($t->getMessage());
+        }
+    }
+
+    /**
+     * Pass-on method calls to Keen client.
+     *
+     * @param  string $method
+     * @param  array  $args
+     * @return mixed
+     */
+    public function __call($method, array $args)
+    {
+        return call_user_func_array(array($this->keen, $method), $args);
+    }
+
+    /**
+     * @param  string $message
+     * @return bool
+     */
+    private function addError($message)
+    {
+        $this->errors[] = $message;
+
+        return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }
