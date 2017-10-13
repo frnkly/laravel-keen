@@ -4,6 +4,20 @@ namespace Frnkly\LaravelKeen;
 
 use KeenIO\Client\KeenIOClient;
 
+/**
+ * Some methods from the underlying \KeenIO\Client\KeenIOClient class
+ *
+ * @method string|null getProjectId()
+ * @method string|null getMasterKey()
+ * @method string|null getWriteKey()
+ * @method mixed addEvent($collection, array $event = [])
+ * @method mixed addEvents(array $events = [])
+ *
+ * Some methods from the underlying \GuzzleHttp\Command\Guzzle\GuzzleClient class
+ *
+ * @method setConfig($option, $value)
+ * @method mixed getConfig($option = null)
+ */
 class Client
 {
     /**
@@ -98,7 +112,7 @@ class Client
      */
     public function __call($method, array $args)
     {
-        return call_user_func_array(array($this->keen, $method), $args);
+        return call_user_func_array([$this->keen, $method], $args);
     }
 
     /**
