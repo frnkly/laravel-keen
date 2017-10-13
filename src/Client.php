@@ -78,8 +78,6 @@ class Client
     {
         if (!$this->deferredEvents) {
             return true;
-        } elseif (! $this->keen) {
-            return $this->addError('Keen client not instantiated.');
         }
 
         try {
@@ -97,7 +95,7 @@ class Client
     }
 
     /**
-     * Pass-on method calls to Keen client.
+     * Pass-on method calls to Keen/Guzzle client.
      *
      * @param  string $method
      * @param  array  $args

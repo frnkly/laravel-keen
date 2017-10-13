@@ -29,12 +29,20 @@ final class TracksRequestsTest extends TestCase
         $this->assertEmpty($client->getDeferredEvents());
 
         // Simulate a request cycle.
-        $middleware->handle(new \Illuminate\Http\Request, function($request) {
-            return new \Illuminate\Http\Response;
+        $request    = new \Illuminate\Http\Request;
+        $response   = new \Illuminate\Http\Response;
+        $middleware->handle($request, function($request) use ($response) {
+            return $response;
         });
 
         $this->assertNotEmpty($client->getDeferredEvents());
         $this->assertNotEmpty($client->getDeferredEvents()['request']);
+
+        // Simulate the ending of a request cycle.
+        $middleware->terminate($request, $response);
+
+        // Since we don't have a valid connection, there should be at least one error.
+        $this->assertNotEmpty($client->getErrors());
 
         // Make sure the underlying Keen client is accessible.
         $this->assertSame($masterKey, $client->getMasterKey());
