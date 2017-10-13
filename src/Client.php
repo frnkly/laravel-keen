@@ -7,9 +7,10 @@ use KeenIO\Client\KeenIOClient;
 /**
  * Some methods from the underlying \KeenIO\Client\KeenIOClient class
  *
- * @method string|null getProjectId()
  * @method string|null getMasterKey()
  * @method string|null getWriteKey()
+ * @method string|null getReadKey()
+ * @method string|null getProjectId()
  * @method mixed addEvent($collection, array $event = [])
  * @method mixed addEvents(array $events = [])
  *
@@ -36,19 +37,11 @@ class Client
     private $errors = [];
 
     /**
-     * @param string $projectId
-     * @param string $masterKey
-     * @param string $writeKey
+     * @param array $config
      */
-    public function __construct($projectId = null, $masterKey = null, $writeKey = null)
+    public function __construct(array $config = [])
     {
-        if ($projectId && ($masterKey || $writeKey)) {
-            $this->keen = KeenIOClient::factory([
-                'projectId' => $projectId,
-                'masterKey' => $masterKey,
-                'writeKey'  => $writeKey,
-            ]);
-        }
+        $this->keen = KeenIOClient::factory($config);
     }
 
     /**
