@@ -55,9 +55,9 @@ Each data enrichment object will appear in your Keen stream under the same key n
 
 ## Getting started
 
-If [package discovery](https://laravel.com/docs/packages#package-discovery) hasn't been disabled in your
-application, the service provider should already be available to use. It can also be manually registered through
-the `config/app.php` configuration file:
+Thanks to [package discovery](https://laravel.com/docs/packages#package-discovery) in Laravel 5.5, the service 
+provider should already be available to use. It can also be manually registered through the `config/app.php` 
+configuration file:
 ```php
 'providers' => [
     // Other Service Providers
