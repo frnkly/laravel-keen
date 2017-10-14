@@ -19,11 +19,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     public function register()
     {
         $this->app->singleton('Frnkly\LaravelKeen\Client', function($app) {
-            return new Client(
-                config('services.keen.id'),
-                config('services.keen.master'),
-                config('services.keen.write')
-            );
+            return new Client([
+                'masterKey' => config('services.keen.master'),
+                'writeKey'  => config('services.keen.write'),
+                'projectId' => config('services.keen.id'),
+            ]);
         });
     }
 
