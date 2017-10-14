@@ -64,7 +64,7 @@ the `config/app.php` configuration file:
 
     Frnkly\LaravelKeen\ServiceProvider::class,
 ]
--```
+```
 
 Optionally, you may choose to register the pre-configured middleware globally in `app/Http/Kernel.php` to enable 
 automatic tracking on every requests. The middleware works with the [data enrichment config keys](#data-enrichment).
