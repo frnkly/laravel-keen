@@ -55,8 +55,16 @@ Each data enrichment object will appear in your Keen stream under the same key n
 
 ## Getting started
 
-If [package discovery](https://laravel.com/docs/5.5/packages#package-discovery) hasn't been disabled in your
-application, the service provider should already be available to use.
+If [package discovery](https://laravel.com/docs/packages#package-discovery) hasn't been disabled in your
+application, the service provider should already be available to use. It can also be manually registered through
+the `config/app.php` configuration file:
+```php
+'providers' => [
+    // Other Service Providers
+
+    Frnkly\LaravelKeen\ServiceProvider::class,
+]
+-```
 
 Optionally, you may choose to register the pre-configured middleware globally in `app/Http/Kernel.php` to enable 
 automatic tracking on every requests. The middleware works with the [data enrichment config keys](#data-enrichment).
@@ -65,6 +73,6 @@ automatic tracking on every requests. The middleware works with the [data enrich
 protected $middleware = [
     // Other Middleware
     
-    \Frnkly\LaravelKeen\TrackRequests::class,
+    \Frnkly\LaravelKeen\TracksRequests::class,
 ];
 ```
