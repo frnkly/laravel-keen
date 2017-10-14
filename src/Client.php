@@ -32,6 +32,11 @@ class Client
     private $deferredEvents = [];
 
     /**
+     * @var array
+     */
+    private $requestEventData = [];
+
+    /**
      * @var string[]
      */
     private $errors = [];
@@ -45,8 +50,6 @@ class Client
     }
 
     /**
-     * Tracks an event.
-     *
      * @param  string $name
      * @param  array  $parameters
      * @return static
@@ -59,14 +62,66 @@ class Client
     }
 
     /**
-     * Retrieves event data.
-     *
      * @param  string $event
      * @return array|null
      */
     public function getDeferredEvents($event = null)
     {
-        return $event ? $this->deferredEvents[$event] : $this->deferredEvents;
+        return ($event && isset($this->deferredEvents[$event])) ?
+            $this->deferredEvents[$event] :
+            $this->deferredEvents;
+    }
+
+    /**
+     * @param  string $key
+     * @param  mixed  $value
+     * @param  bool   $overwrite
+     * @return static
+     */
+    public function addRequestEventData($key, $value, $overwrite = false)
+    {
+        if ($key && (! isset($this->requestEventData[$key]) || $overwrite)) {
+            $this->requestEventData[$key] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  array  $params
+     * @param  string $key
+     * @return static
+     */
+    public function addRequestEventParams(array $params, $key = 'params')
+    {
+        if (! isset($this->requestEventData[$key])) {
+            $this->requestEventData[$key] = [];
+        }
+
+        $this->requestEventData[$key] = array_merge($this->requestEventData[$key], $params);
+
+        return $this;
+    }
+
+    /**
+     * Adds enrichment data to request event.
+     *
+     * @param  array  $options
+     * @return static
+     */
+    public function enrichRequestEvent(array $options)
+    {
+        $this->requestEventData['keen']['addons'][] = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequestEventData()
+    {
+        return $this->requestEventData;
     }
 
     /**

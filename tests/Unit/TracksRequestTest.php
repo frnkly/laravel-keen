@@ -28,6 +28,15 @@ final class TracksRequestsTest extends TestCase
 
         $this->assertEmpty($client->getDeferredEvents());
 
+        // Add request data through helper methods
+        $client->addRequestEventData('__TracksRequestTest', 1);
+        $client->addRequestEventParams(['__TracksRequestTest' => 1]);
+        $client->enrichRequestEvent($enrichment = ['enrichment-test']);
+
+        $this->assertNotNull($client->getRequestEventData()['__TracksRequestTest']);
+        $this->assertNotNull($client->getRequestEventData()['params']['__TracksRequestTest']);
+        $this->assertSame($enrichment, $client->getRequestEventData()['keen']['addons'][0]);
+
         // Simulate a request cycle.
         $request    = new \Illuminate\Http\Request;
         $response   = new \Illuminate\Http\Response;
@@ -37,6 +46,8 @@ final class TracksRequestsTest extends TestCase
 
         $this->assertNotEmpty($client->getDeferredEvents());
         $this->assertNotEmpty($client->getDeferredEvents()['request']);
+        $this->assertTrue(array_key_exists('ip', $client->getDeferredEvents()['request'][0]));
+        $this->assertTrue(array_key_exists('code', $client->getDeferredEvents()['request'][0]['response']));
 
         // Simulate the ending of a request cycle.
         $middleware->terminate($request, $response);
