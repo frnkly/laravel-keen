@@ -55,7 +55,8 @@ class TracksRequests
         }
 
         // Add geo-location data
-        if (config('services.keen.geo-data', true)) {
+        // @deprecated 'services.keen.geo-data'
+        if (config('services.keen.geo_data', config('services.keen.geo-data', true))) {
             $this->client->enrichRequestEvent([
                 'name'  => 'keen:ip_to_geo',
                 'output'=> 'geo_data',
@@ -64,7 +65,8 @@ class TracksRequests
         }
 
         // Add user-agent data
-        if (config('services.keen.user-data', true)) {
+        // @deprecated 'services.keen.user-data'
+        if (config('services.keen.user_data', config('services.keen.user-data', true))) {
             $this->client->enrichRequestEvent([
                 'name'   => 'keen:ua_parser',
                 'output' => 'user_data',

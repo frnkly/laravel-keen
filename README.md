@@ -7,9 +7,11 @@ Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down 
 [![Total Downloads](https://poser.pugx.org/frnkly/laravel-keen/downloads)](https://packagist.org/packages/frnkly/laravel-keen)
 [![License](https://poser.pugx.org/frnkly/laravel-keen/license)](https://packagist.org/packages/frnkly/laravel-keen)
 
-This package provides a light wrapper around the [Keen PHP client](https://github.com/keenlabs/KeenClient-PHP), as well 
-as a middleware configured to track any request automatically—_after_ each request has been fulfilled. That means that
-as the number of tracked events increase, the impact on request time remains virtually non-existant.
+This package provides a light wrapper around the 
+[Keen PHP client](https://github.com/keenlabs/KeenClient-PHP), as well as a 
+middleware configured to track any request automatically—_after_ each request 
+has been fulfilled. That means that as the number of tracked events increase, 
+the impact on request time remains virtually non-existant.
 
 ## Installation
 
@@ -21,8 +23,9 @@ This will also install the Keen PHP client as a dependency.
 
 ## Configuration
 
-Your Keen project ID and keys should be defined in the `config/services.php` configuration file, but will usually come
-from the [environment configuration](https://laravel.com/docs/configuration):
+Your Keen project ID and keys should be defined in the `config/services.php` 
+configuration file, but will usually come from the 
+[environment configuration](https://laravel.com/docs/configuration):
 
 ```php
 return [
@@ -37,27 +40,29 @@ return [
 ```
 
 ### Data enrichment
-To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) to each request, use the following
-configuration options:
+To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) 
+to each request, use the following configuration options:
 
 ```php
 'keen' => [
     // Other Keen settings
     
     'addons' => [
-        'geo-data'  => 1,   // IP to Geo parser
-        'user-data' => 1,   // User Agent parser
+        'geo_data'  => 1,   // IP to Geo parser
+        'user_data' => 1,   // User Agent parser
     ],
 ],
 ```
 
-Each data enrichment object will appear in your Keen stream under the same key name as above.
+Each data enrichment object will appear in your Keen stream under the same key 
+name as above (e.g. `geo_data`, `user_data`, etc.).
 
 ## Getting started
 
-Thanks to [package discovery](https://laravel.com/docs/packages#package-discovery) in Laravel 5.5, the service 
-provider should already be available to use. It can also be manually registered through the `config/app.php` 
-configuration file:
+Thanks to [package discovery](https://laravel.com/docs/packages#package-discovery) 
+in Laravel 5.5, the service provider should already be available to use. It can 
+also be manually registered through the `config/app.php` configuration file:
+
 ```php
 'providers' => [
     // Other Service Providers
@@ -66,8 +71,8 @@ configuration file:
 ]
 ```
 
-Optionally, you may choose to register the pre-configured middleware globally in `app/Http/Kernel.php` to enable 
-automatic tracking on every requests. The middleware works with the [data enrichment config keys](#data-enrichment).
+Optionally, you may choose to register the pre-configured middleware globally 
+in `app/Http/Kernel.php` to enable automatic tracking on every requests:
 
 ```php
 protected $middleware = [
@@ -76,3 +81,23 @@ protected $middleware = [
     \Frnkly\LaravelKeen\TracksRequests::class,
 ];
 ```
+
+Or within a middleware group:
+
+```php
+protected $middlewareGroups = [
+    'web' => [
+        // Other "Web" Middleware
+        
+        \Frnkly\LaravelKeen\TracksRequests::class,
+    ],
+
+    'api' => [
+        // Other "API" Middleware
+        
+        \Frnkly\LaravelKeen\TracksRequests::class,
+    ],
+];
+```
+
+The middleware works with the [data enrichment config keys](#data-enrichment).
