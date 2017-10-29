@@ -3,7 +3,7 @@
 Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down your Laravel application.
 
 [![Latest Stable Version](https://poser.pugx.org/frnkly/laravel-keen/version)](https://packagist.org/packages/frnkly/laravel-keen)
-[![Build Status](https://travis-ci.org/frnkly/laravel-embeds.png)](https://travis-ci.org/frnkly/laravel-embeds)
+[![Build Status](https://travis-ci.org/frnkly/laravel-keen.png)](https://travis-ci.org/frnkly/laravel-embeds)
 [![Total Downloads](https://poser.pugx.org/frnkly/laravel-keen/downloads)](https://packagist.org/packages/frnkly/laravel-keen)
 [![License](https://poser.pugx.org/frnkly/laravel-keen/license)](https://packagist.org/packages/frnkly/laravel-keen)
 
