@@ -52,6 +52,10 @@ class TracksRequests
             $this->client
                 ->addRequestEventParams($request->route()->parameters())
                 ->addRequestEventData('fingerprint', $request->fingerprint());
+
+            if ($prefix = $request->route()->getPrefix()) {
+                $this->client->addRequestEventData('path_prefix', $prefix);
+            }
         }
 
         // Add geo-location data
