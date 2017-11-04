@@ -30,7 +30,9 @@ configuration file, but will usually come from the
 ```php
 return [
     // Other 3rd-party Services
+    // ...
     
+    // Add your Keen information here
     'keen' => [
         'id'     => env('KEEN_PROJECT_ID'),
         'master' => env('KEEN_MASTER_KEY'),
@@ -39,7 +41,15 @@ return [
 ];
 ```
 
-### Data enrichment
+And in your `.env` file, you might add something similar to:
+
+```
+KEEN_PROJECT_ID=your-project-id
+KEEN_MASTER_KEY=your-master-key
+KEEN_WRITE_KEY=your-write-key
+```
+
+## Data enrichment
 To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) 
 to each request, use the following configuration options:
 
@@ -48,14 +58,14 @@ to each request, use the following configuration options:
     // Other Keen settings
     
     'addons' => [
-        'geo_data'  => 1,   // IP to Geo parser
-        'user_data' => 1,   // User Agent parser
+        'ip_to_geo' => true,    // IP to Geo parser
+        'ua_parser' => true,    // User Agent parser
     ],
 ],
 ```
 
 Each data enrichment object will appear in your Keen stream under the same key 
-name as above (e.g. `geo_data`, `user_data`, etc.).
+name as above (i.e. `ip_to_geo` and `ua_parser`).
 
 ## Getting started
 
@@ -66,6 +76,7 @@ also be manually registered through the `config/app.php` configuration file:
 ```php
 'providers' => [
     // Other Service Providers
+    // ...
 
     Frnkly\LaravelKeen\ServiceProvider::class,
 ]
@@ -77,6 +88,7 @@ in `app/Http/Kernel.php` to enable automatic tracking on every requests:
 ```php
 protected $middleware = [
     // Other Middleware
+    // ...
     
     \Frnkly\LaravelKeen\TracksRequests::class,
 ];
@@ -88,12 +100,14 @@ Or within a middleware group:
 protected $middlewareGroups = [
     'web' => [
         // Other "Web" Middleware
+        // ...
         
         \Frnkly\LaravelKeen\TracksRequests::class,
     ],
 
     'api' => [
         // Other "API" Middleware
+        // ...
         
         \Frnkly\LaravelKeen\TracksRequests::class,
     ],
@@ -101,3 +115,56 @@ protected $middlewareGroups = [
 ```
 
 The middleware works with the [data enrichment config keys](#data-enrichment).
+
+## Using your own middleware
+
+The included middleware is easily extensible, and can help you gain more
+granular control over the data that gets sent to Keen. You can create your own 
+middleware using `Artisan`, and then make it extend 
+`\Frnkly\LaravelKeen\TracksRequests`:
+
+    $ php artisan make:middleware TracksRequests
+    
+Inside the new middleware, override the protected method 
+`buildRequestEventData`:
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+class TracksRequests extends \Frnkly\LaravelKeen\TracksRequests
+{
+    /**
+     * Data for "request" event.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Response $response
+     */
+    protected function buildRequestEventData($request, $response)
+    {
+        parent::buildRequestEventData($request, $response);
+        
+        // Add or overwrite values.
+        $host      = 'staging';
+        $overwrite = true;
+        $this->client->addRequestEventData('host', $host, $overwrite);
+        
+        // Add parameters to array values.
+        $this->client->addRequestEventParams([
+            'user' => $request->user()->id
+        ]);
+        $this->client->addRequestEventParams([
+            'mime' => $request->getMimeType('html')
+        ], 'response');
+        
+        // Add data enrichment.
+        $this->client->addRequestEventData('target_url', 'https://example.com');
+        $this->client->enrichRequestEvent([
+            'name'  => 'keen:url_parser',
+            'output'=> 'url_parser',
+            'input' => ['url' => 'target_url']
+        ]);
+    }
+}
+```

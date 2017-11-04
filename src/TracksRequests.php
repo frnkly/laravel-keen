@@ -7,12 +7,12 @@ class TracksRequests
     /**
      * @var Client
      */
-    private $client;
+    protected $client;
 
     /**
      * @var int
      */
-    private $startTime;
+    protected $startTime;
 
     /**
      * @param Client $client
