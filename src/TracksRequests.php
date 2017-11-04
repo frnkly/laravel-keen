@@ -34,6 +34,22 @@ class TracksRequests
     {
         $response = $next($request);
 
+        $this->buildRequestEventData($request, $response);
+
+        $this->client->addDeferredEvent('request', $this->client->getRequestEventData());
+
+        return $response;
+    }
+
+    /**
+     * Builds request event data. Override this method to customize what gets
+     * tracked to Keen on each request.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Response $response
+     */
+    protected function buildRequestEventData($request, $response)
+    {
         // Build event data
         $this->client
             ->addRequestEventData('method', $request->method())
@@ -59,28 +75,22 @@ class TracksRequests
         }
 
         // Add geo-location data
-        // @deprecated 'services.keen.geo-data'
-        if (config('services.keen.geo_data', config('services.keen.geo-data', true))) {
+        if (config('services.keen.addons.ip_to_geo', true)) {
             $this->client->enrichRequestEvent([
                 'name'  => 'keen:ip_to_geo',
-                'output'=> 'geo_data',
+                'output'=> 'ip_to_geo',
                 'input' => ['ip' => 'ip']
             ]);
         }
 
         // Add user-agent data
-        // @deprecated 'services.keen.user-data'
-        if (config('services.keen.user_data', config('services.keen.user-data', true))) {
+        if (config('services.keen.addons.ua_parser', true)) {
             $this->client->enrichRequestEvent([
                 'name'   => 'keen:ua_parser',
-                'output' => 'user_data',
+                'output' => 'ua_parser',
                 'input'  => ['ua_string' => 'user_agent']
             ]);
         }
-
-        $this->client->addDeferredEvent('request', $this->client->getRequestEventData());
-
-        return $response;
     }
 
     /**
