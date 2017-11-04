@@ -1,6 +1,8 @@
 # [Laravel](https://laravel.com) + [Keen.io](https://keen.io)
 
-Efficiently integrate [Keen.io](https://keen.io) analytics without slowing down your Laravel application.
+Don't let an external service unnecessarily slow down your application.
+Efficiently integrate the awesome [Keen.io](https://keen.io) analytics service
+with virtually no impact on request time.
 
 [![Latest Stable Version](https://poser.pugx.org/frnkly/laravel-keen/version)](https://packagist.org/packages/frnkly/laravel-keen)
 [![Build Status](https://travis-ci.org/frnkly/laravel-keen.png)](https://travis-ci.org/frnkly/laravel-keen)
@@ -56,6 +58,7 @@ to each request, use the following configuration options:
 ```php
 'keen' => [
     // Other Keen settings
+    // ...
     
     'addons' => [
         'ip_to_geo' => true,    // IP to Geo parser
@@ -168,3 +171,6 @@ class TracksRequests extends \Frnkly\LaravelKeen\TracksRequests
     }
 }
 ```
+
+Remember to update your `app/Http/Kernel.php` file to use your own middleware
+class, instead of the pre-configured one.
