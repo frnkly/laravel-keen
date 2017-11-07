@@ -17,9 +17,10 @@ the impact on request time remains virtually non-existant.
 
 - [Installation](#installation)
 - [Configuration](#configuration)
-- [Data enrichment](#data-enrichment)
 - [Getting started](#getting-started)
+- [Data enrichment](#data-enrichment)
 - [Using your own middleware](#using-your-own-middleware)
+- [Features](#features)
 
 ## Installation
 
@@ -56,25 +57,6 @@ KEEN_PROJECT_ID=your-project-id
 KEEN_MASTER_KEY=your-master-key
 KEEN_WRITE_KEY=your-write-key
 ```
-
-## Data enrichment
-To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) 
-to each request, use the following configuration options:
-
-```php
-'keen' => [
-    // Other Keen settings
-    // ...
-    
-    'addons' => [
-        'ip_to_geo' => true,    // IP to Geo parser
-        'ua_parser' => true,    // User Agent parser
-    ],
-],
-```
-
-Each data enrichment object will appear in your Keen stream under the same key 
-name as above (i.e. `ip_to_geo` and `ua_parser`).
 
 ## Getting started
 
@@ -124,6 +106,25 @@ protected $middlewareGroups = [
 ```
 
 The middleware works with the [data enrichment config keys](#data-enrichment).
+
+## Data enrichment
+To automatically add [data enrichment](https://keen.io/docs/api/?php#data-enrichment) 
+to each request, use the following configuration options:
+
+```php
+'keen' => [
+    // Other Keen settings
+    // ...
+    
+    'addons' => [
+        'ip_to_geo' => true,    // IP to Geo parser
+        'ua_parser' => true,    // User Agent parser
+    ],
+],
+```
+
+Each data enrichment object will appear in your Keen stream under the same key 
+name as above (i.e. `ip_to_geo` and `ua_parser`).
 
 ## Using your own middleware
 
@@ -180,3 +181,13 @@ class TracksRequests extends \Frnkly\LaravelKeen\TracksRequests
 
 Remember to update your `app/Http/Kernel.php` file to use your own middleware
 class, instead of the pre-configured one.
+
+## Features
+
+- [x] Deferred event tracking :raised_hands:
+- [ ] Support data enrichment out of the box
+    - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment/)
+    - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment/)
+    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment/)
+- [x] Extensible middleware
+
