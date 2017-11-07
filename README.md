@@ -192,6 +192,6 @@ class, instead of the pre-configured one.
 - [x] Extensible middleware
 
 -----------
-This project is licensed under the MIT license.
+This project is licensed under the [MIT license](https://github.com/frnkly/laravel-keen/blob/dev/LICENSE).
 
 I'd love to hear your comments or questions about this project. If you have an idea on how to improve it, [create an issue](https://github.com/frnkly/laravel-keen/issues/new) or [get in touch](https://frnk.ca).
