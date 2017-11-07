@@ -186,8 +186,12 @@ class, instead of the pre-configured one.
 
 - [x] Deferred event tracking :raised_hands:
 - [ ] Support data enrichment out of the box
-    - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment/)
-    - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment/)
-    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment/)
+    - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment)
+    - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
+    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
 - [x] Extensible middleware
 
+-----------
+This project is licensed under the MIT license.
+
+I'd love to hear your comments or questions about this project. If you have an idea on how to improve it, [create an issue](https://github.com/frnkly/laravel-keen/issues/new) or [get in touch](https://frnk.ca).
