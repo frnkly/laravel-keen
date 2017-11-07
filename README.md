@@ -15,6 +15,12 @@ middleware configured to track any request automatically—_after_ each request
 has been fulfilled. That means that as the number of tracked events increase, 
 the impact on request time remains virtually non-existant.
 
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Data enrichment](#data-enrichment)
+- [Getting started](#getting-started)
+- [Using your own middleware](#using-your-own-middleware)
+
 ## Installation
 
 Install the Laravel + Keen package using [Composer](https://getcomposer.org):
