@@ -130,7 +130,7 @@ name as above (i.e. `ip_to_geo` and `ua_parser`).
 
 The included middleware is easily extensible, and can help you gain more
 granular control over the data that gets sent to Keen. You can create your own 
-middleware using `Artisan`, and then make it extend 
+middleware using `Artisan`, and then have it extend 
 `\Frnkly\LaravelKeen\TracksRequests`:
 
     $ php artisan make:middleware TracksRequests
@@ -180,7 +180,7 @@ class TracksRequests extends \Frnkly\LaravelKeen\TracksRequests
 ```
 
 Remember to update your `app/Http/Kernel.php` file to use your own middleware
-class, instead of the pre-configured one.
+class instead of the pre-configured one.
 
 ## Features
 
@@ -190,6 +190,7 @@ class, instead of the pre-configured one.
     - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
     - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
 - [x] Extensible middleware
+- [ ] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
 
 -----------
 This project is licensed under the [MIT license](https://github.com/frnkly/laravel-keen/blob/dev/LICENSE).
