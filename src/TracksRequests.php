@@ -15,6 +15,18 @@ class TracksRequests
     protected $startTime;
 
     /**
+     * @var array
+     */
+    protected $skipResponseCodes = [
+        100,
+        101,
+        301,
+        302,
+        307,
+        308,
+    ];
+
+    /**
      * @param Client $client
      */
     public function __construct(Client $client)
@@ -34,11 +46,33 @@ class TracksRequests
     {
         $response = $next($request);
 
-        $this->buildRequestEventData($request, $response);
+        // Check if middleware should run
+        if (! $this->shouldRun($request, $response)) {
+            return $response;
+        }
 
+        // Track request
+        $this->buildRequestEventData($request, $response);
         $this->client->addDeferredEvent('request', $this->client->getRequestEventData());
 
         return $response;
+    }
+
+    /**
+     * Determines if the middleware should run or not.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Response $response
+     * @return bool
+     */
+    protected function shouldRun($request, $response)
+    {
+        // Skip specific response codes.
+        if (in_array($response->getStatusCode(), $this->skipResponseCodes)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -67,7 +101,12 @@ class TracksRequests
         if ($request->route()) {
             $this->client
                 ->addRequestEventParams($request->route()->parameters())
-                ->addRequestEventData('fingerprint', $request->fingerprint());
+                ->addRequestEventData('route', [
+                    'name'          => $request->route()->getName(),
+                    'controller'    => get_class($request->route()->getController()),
+                    'method'        => $request->route()->getActionMethod(),
+                    'fingerprint'   => $request->fingerprint(),
+                ]);
 
             if ($prefix = $request->route()->getPrefix()) {
                 $this->client->addRequestEventData('path_prefix', $prefix);
@@ -99,7 +138,8 @@ class TracksRequests
      */
     public function terminate($request, $response)
     {
-        // Store the session data
+        // We persist event data even if the middleware determined it should
+        // not run, in case other deferred events should be sent to Keen.
         $this->client->persist();
     }
 }
