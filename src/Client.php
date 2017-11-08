@@ -111,6 +111,19 @@ class Client
      */
     public function enrichRequestEvent(array $options)
     {
+        // Performance check.
+        if (empty($options['name']) ||
+            empty($options['output']) ||
+            empty($options['input'])
+        ) {
+            return $this;
+        }
+
+        // Append the keen prefix.
+        if (strpos($options['name'], 'keen:') !== 0) {
+            $options['name'] = 'keen:'.$options['name'];
+        }
+
         $this->requestEventData['keen']['addons'][] = $options;
 
         return $this;

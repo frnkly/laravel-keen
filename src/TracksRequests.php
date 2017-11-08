@@ -67,6 +67,11 @@ class TracksRequests
      */
     protected function shouldRun($request, $response)
     {
+        // Disabled through config.
+        if (! config('services.keen.track_requests', true)) {
+            return false;
+        }
+
         // Skip specific response codes.
         if (in_array($response->getStatusCode(), $this->skipResponseCodes)) {
             return false;
