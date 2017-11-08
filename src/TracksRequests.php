@@ -103,8 +103,6 @@ class TracksRequests
                 ->addRequestEventParams($request->route()->parameters())
                 ->addRequestEventData('route', [
                     'name'          => $request->route()->getName(),
-                    'controller'    => get_class($request->route()->getController()),
-                    'method'        => $request->route()->getActionMethod(),
                     'fingerprint'   => $request->fingerprint(),
                 ]);
 
