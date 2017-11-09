@@ -15,6 +15,7 @@ request has been fulfilled. That means that as the number of tracked events
 increase, the impact on request time remains virtually non-existent.
 For convenience, the middleware can also track every request automatically.
 
+- [Features](#features)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Getting started](#getting-started)
@@ -23,7 +24,19 @@ For convenience, the middleware can also track every request automatically.
     - [Using your own middleware](#using-your-own-middleware)
     - [Skipping requests](#skipping-requests)
 - [Type-hinting](#type-hinting)
-- [Features](#features)
+
+# Features
+
+- [x] Deferred event tracking :raised_hands:
+- [x] Optional automatic tracking of every request
+- [ ] Support data enrichment out of the box
+    - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment)
+    - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
+    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
+- [x] Extensible middleware
+- [x] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
+    - [x] Or any request based on custom logic
+- [ ] More to come
 
 # Installation
 
@@ -286,17 +299,6 @@ class UserController extends Controller
     }
 }
 ```
-
-# Features
-
-- [x] Deferred event tracking :raised_hands:
-- [ ] Support data enrichment out of the box
-    - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment)
-    - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
-    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
-- [x] Extensible middleware
-- [x] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
-    - [x] Or any request based on custom logic
 
 -----------
 
