@@ -198,7 +198,45 @@ class instead of the pre-configured one.
 
 ## Skipping requests
 
+Some response codes do not need to be tracked, such as redirects. You 
+can configure a list of response codes to ignore in your middleware:
 
+```php
+/**
+ * @var array
+ */
+protected $skipResponseCodes = [
+    100,
+    101,
+    301,
+    302,
+    307,
+    308,
+];
+```
+
+You may also override the `shouldRun` method in the middleware:
+
+```php
+/**
+ * Determines if the middleware should run or not.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \Illuminate\Http\Response $response
+ * @return bool
+ */
+protected function shouldRun($request, $response) : bool
+{
+    if (! parent::shouldRun($request, $response)) {
+        return false;
+    }
+    
+    // Define your own custom logic here.
+    // ...
+
+    return true;
+}
+```
 
 # Type-hinting
 
@@ -225,7 +263,7 @@ class OrderShipped
     {
         // By adding a deferred event, we can continue working on the request
         // without waiting on a reply back from Keen.io. The event will be
-        // processed once the request is done--automatically and transparently.
+        // processed once the request is done–automatically and transparently.
         $this->client->addDeferredEvent('order-shipped', [
             // Event data...
         ]);
@@ -257,10 +295,15 @@ class UserController extends Controller
     - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
     - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
 - [x] Extensible middleware
-- [ ] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
+- [x] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
+    - [x] Or any request based on custom logic
 
 -----------
 
-This project is licensed under the [MIT license](https://github.com/frnkly/laravel-keen/blob/dev/LICENSE).
+This project is licensed under the 
+[MIT license](https://github.com/frnkly/laravel-keen/blob/dev/LICENSE).
 
-I'd love to hear your comments or questions about this project. If you have an idea on how to improve it, [create an issue](https://github.com/frnkly/laravel-keen/issues/new) or [get in touch](https://frnk.ca).
+I'd love to hear your comments or questions about this project. If you have 
+an idea on how to improve it, 
+[create an issue](https://github.com/frnkly/laravel-keen/issues/new) or 
+[get in touch](https://frnk.ca).

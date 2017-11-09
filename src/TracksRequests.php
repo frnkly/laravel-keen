@@ -65,7 +65,7 @@ class TracksRequests
      * @param  \Illuminate\Http\Response $response
      * @return bool
      */
-    protected function shouldRun($request, $response)
+    protected function shouldRun($request, $response) : bool
     {
         // Disabled through config.
         if (! config('services.keen.track_requests', true)) {
