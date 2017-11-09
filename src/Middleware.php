@@ -2,7 +2,7 @@
 
 namespace Frnkly\LaravelKeen;
 
-class TracksRequests
+class Middleware
 {
     /**
      * @var Client

@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use Frnkly\LaravelKeen\Client;
 use Orchestra\Testbench\TestCase;
-use Frnkly\LaravelKeen\TracksRequests as Middleware;
+use Frnkly\LaravelKeen\Middleware;
 
 /**
  * Tests the middleware.
  *
- * @covers \Frnkly\LaravelKeen\TracksRequests
+ * @covers \Frnkly\LaravelKeen\Middleware
  */
 final class TracksRequestsTest extends TestCase
 {
@@ -31,7 +31,11 @@ final class TracksRequestsTest extends TestCase
         // Add request data through helper methods
         $client->addRequestEventData('__TracksRequestTest', 1);
         $client->addRequestEventParams(['__TracksRequestTest' => 1]);
-        $client->enrichRequestEvent($enrichment = ['enrichment-test']);
+        $client->enrichRequestEvent($enrichment = [
+            'name'      => 'keen:enrichment-test',
+            'output'    => 'enrichment-test',
+            'input'     => ['test' => 'test'],
+        ]);
 
         $this->assertNotNull($client->getRequestEventData()['__TracksRequestTest']);
         $this->assertNotNull($client->getRequestEventData()['params']['__TracksRequestTest']);

@@ -70,7 +70,7 @@ protected $middleware = [
     // Other Middleware
     // ...
     
-    \Frnkly\LaravelKeen\TracksRequests::class,
+    \Frnkly\LaravelKeen\Middleware::class,
 ];
 ```
 
@@ -82,14 +82,14 @@ protected $middlewareGroups = [
         // Other "Web" Middleware
         // ...
         
-        \Frnkly\LaravelKeen\TracksRequests::class,
+        \Frnkly\LaravelKeen\Middleware::class,
     ],
 
     'api' => [
         // Other "API" Middleware
         // ...
         
-        \Frnkly\LaravelKeen\TracksRequests::class,
+        \Frnkly\LaravelKeen\Middleware::class,
     ],
 ];
 ```
@@ -145,7 +145,7 @@ name as above (i.e. `ip_to_geo` and `ua_parser`).
 The included middleware makes it simple to extend and gain more
 granular control over the data that gets sent to Keen. You can create your own 
 middleware using `Artisan`, and then have it extend 
-`\Frnkly\LaravelKeen\TracksRequests`:
+`\Frnkly\LaravelKeen\Middleware`:
 
     $ php artisan make:middleware TracksRequests
     
@@ -157,7 +157,7 @@ Inside the new middleware, override the protected method
 
 namespace App\Http\Middleware;
 
-class TracksRequests extends \Frnkly\LaravelKeen\TracksRequests
+class TracksRequests extends \Frnkly\LaravelKeen\Middleware
 {
     /**
      * Data for "request" event.
