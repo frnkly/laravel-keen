@@ -133,6 +133,23 @@ class Middleware
                 'input'  => ['ua_string' => 'user_agent']
             ]);
         }
+
+        // Add referrer data
+        if (config('services.keen.addons.referrer_parser', false) &&
+            $referrer = $request->server('HTTP_REFERER')
+        ) {
+            $this->client
+                ->addRequestEventData('page_url', $request->fullUrl())
+                ->addRequestEventData('referrer_url', $referrer)
+                ->enrichRequestEvent([
+                    'name'   => 'keen:referrer_parser',
+                    'output' => 'referrer_parser',
+                    'input'  => [
+                        'page_url'     => 'page_url',
+                        'referrer_url' => 'referrer_url',
+                    ],
+                ]);
+        }
     }
 
     /**
