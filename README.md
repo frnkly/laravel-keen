@@ -34,9 +34,9 @@ For convenience, the middleware can also track every request automatically.
     - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
     - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
 - [x] Extensible middleware
-- [x] Option to ignore specific response codes (e.g. `302`, `404`, etc.)
+- [x] Option to ignore specific HTTP status codes (e.g. `100`, `302`, etc.)
     - [x] Or any request based on custom logic
-- [ ] More to come
+- [ ] More to come!
 
 # Installation
 
