@@ -150,7 +150,7 @@ to each request, use the following configuration options:
 ],
 ```
 
-Each data enrichment object will appear in your Keen stream under the same  
+Each data enrichment object will appear in your Keen stream under the same 
 name as above (i.e. `ip_to_geo` and `ua_parser`).
 
 ## Using your own middleware
