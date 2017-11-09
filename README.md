@@ -29,10 +29,10 @@ For convenience, the middleware can also track every request automatically.
 
 - [x] Deferred event tracking :raised_hands:
 - [x] Optional automatic tracking of every request
-- [ ] Support data enrichment out of the box
+- [x] Support data enrichment out of the box
     - [x] [IP to Geo](https://keen.io/docs/streams/ip-to-geo-enrichment)
     - [x] [User Agent](https://keen.io/docs/streams/user-agent-enrichment)
-    - [ ] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
+    - [x] [Referrer](https://keen.io/docs/streams/referrer-enrichment)
 - [x] Extensible middleware
 - [x] Option to ignore specific HTTP status codes (e.g. `100`, `302`, etc.)
     - [x] Or any request based on custom logic
@@ -144,8 +144,9 @@ to each request, use the following configuration options:
     // ...
     
     'addons' => [
-        'ip_to_geo' => true,    // IP to Geo parser
-        'ua_parser' => true,    // User Agent parser
+        'ip_to_geo'       => true,  // IP to Geo parser
+        'ua_parser'       => true,  // User Agent parser
+        'referrer_parser' => true,  // Referrer parser
     ],
 ],
 ```

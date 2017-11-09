@@ -117,7 +117,7 @@ class Middleware
         }
 
         // Add geo-location data
-        if (config('services.keen.addons.ip_to_geo', true)) {
+        if (config('services.keen.addons.ip_to_geo', false)) {
             $this->client->enrichRequestEvent([
                 'name'  => 'keen:ip_to_geo',
                 'output'=> 'ip_to_geo',
@@ -126,7 +126,7 @@ class Middleware
         }
 
         // Add user-agent data
-        if (config('services.keen.addons.ua_parser', true)) {
+        if (config('services.keen.addons.ua_parser', false)) {
             $this->client->enrichRequestEvent([
                 'name'   => 'keen:ua_parser',
                 'output' => 'ua_parser',
